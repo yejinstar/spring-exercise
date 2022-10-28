@@ -2,14 +2,12 @@ package com.springboot.hello.dao;
 
 import com.springboot.hello.domain.User;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 
 @Component
 public class UserDao {
@@ -21,10 +19,9 @@ public class UserDao {
         this.dataSource = dataSource;
     }
 
-    public void add(User user){
-        this.jdbcTemplate.update("insert into users(id, name, password) values(?,?,?)",
+    public int add(User user){
+        return this.jdbcTemplate.update("insert into users(id, name, password) values(?,?,?)",
                 user.getId(), user.getName(), user.getPassword());
-
     }
 
     public int deleteAll(){
@@ -32,32 +29,14 @@ public class UserDao {
     }
 
     public User findById(String id) {
-        Map<String, String> env = System.getenv();
-        Connection c;
-        try {
-            // DB접속 (ex sql workbeanch실행)
-            c = dataSource.getConnection();
-
-            // Query문 작성
-            PreparedStatement pstmt = c.prepareStatement("SELECT * FROM users WHERE id = ?");
-            pstmt.setString(1, id);
-
-            // Query문 실행
-            ResultSet rs = pstmt.executeQuery();
-            User user = null;
-            if (rs.next()) {
-                user = new User(rs.getString("id"), rs.getString("name"),
-                        rs.getString("password"));
+        String sql = "select * from users where id = ?";
+        RowMapper<User> rowMapper = new RowMapper<User>() {
+            @Override
+            public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+                User user = new User(rs.getString("id"), rs.getString("name"), rs.getString("password"));
+                return user;
             }
-
-            rs.close();
-            pstmt.close();
-            c.close();
-
-            if (user == null) throw new RuntimeException();
-            return user;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        };
+        return this.jdbcTemplate.queryForObject(sql, rowMapper, id);
     }
 }
