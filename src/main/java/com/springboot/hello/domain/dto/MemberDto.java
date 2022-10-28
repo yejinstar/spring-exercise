@@ -1,4 +1,4 @@
-package com.springboot.hello.dto;
+package com.springboot.hello.domain.dto;
 
 public class MemberDto {
     private String name;

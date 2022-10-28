@@ -1,6 +1,6 @@
 package com.springboot.hello.controller;
 
-import com.springboot.hello.dto.MemberDto;
+import com.springboot.hello.domain.dto.MemberDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
