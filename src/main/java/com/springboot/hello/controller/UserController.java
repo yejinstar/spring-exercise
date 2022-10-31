@@ -20,7 +20,7 @@ public class UserController {
         this.userDao = userDao;
     }
 
-    @PostMapping("/")
+    @PostMapping("") // /user - user 등록하는 기능
     public ResponseEntity<Integer> add(@RequestBody UserRequestDto userRequestDto) {
         User user = new User(userRequestDto.getId(), userRequestDto.getName(),
                 userRequestDto.getPassword());
@@ -28,11 +28,18 @@ public class UserController {
                 .ok()
                 .body(userDao.add(user));
     }
-    @DeleteMapping("/")
+    @DeleteMapping("/all") // /user/all - 전체 유저 지우는 기능
     public ResponseEntity<Integer> deleteAll() {
         return ResponseEntity
                 .ok()
                 .body(userDao.deleteAll());
+    }
+
+    @DeleteMapping("/{id}") // /user/{id} - 전체 유저 지우는 기능
+    public ResponseEntity<Integer> deleteById(@PathVariable("id") String id) {
+        return ResponseEntity
+                .ok()
+                .body(userDao.deleteById(id));
     }
 
 }

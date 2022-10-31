@@ -28,6 +28,10 @@ public class UserDao {
         return this.jdbcTemplate.update("delete from users");
     }
 
+    public int deleteById(String id) {
+        return this.jdbcTemplate.update("delete from users WHERE id=?", id);
+    }
+
     public User findById(String id) {
         String sql = "select * from users where id = ?";
         RowMapper<User> rowMapper = new RowMapper<User>() {
