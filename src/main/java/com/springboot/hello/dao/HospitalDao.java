@@ -29,4 +29,9 @@ public class HospitalDao {
         );
     }
 
+    public int getCount(){
+        String sql = "SELECT COUNT(id) FROM nation_wide_hospitals;";
+        return this.jdbcTemplate.queryForObject(sql, Integer.class);
+    }
+
 }
