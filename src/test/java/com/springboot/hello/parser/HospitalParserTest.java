@@ -39,6 +39,38 @@ class HospitalParserTest {
     }
 
     @Test
+    @DisplayName("delete success?")
+    void delete(){
+        hospitalDao.deleteAll();
+        assertEquals(0,hospitalDao.getCount());
+        HospitalParser hp = new HospitalParser();
+        Hospital hospital = hp.parse(line1);
+        hospitalDao.add(hospital);
+        assertEquals(1,hospitalDao.getCount());
+
+        assertEquals(1, hospitalDao.findById(1).getId());
+        assertEquals("의원", hospitalDao.findById(1).getOpenServiceName()); //col 1
+        assertEquals(3620000,hospitalDao.findById(1).getOpenLocalGovernmentCode()); //col 3
+        assertEquals("PHMA119993620020041100004",hospitalDao.findById(1).getManagementNumber()); //col 4
+
+
+        assertTrue(LocalDateTime.of(1999,6,12,0,0,0).isEqual(hospitalDao.findById(1).getLicenseDate()));
+
+        assertEquals(1, hospitalDao.findById(1).getBusinessStatus()); //col 7
+        assertEquals(13, hospitalDao.findById(1).getBusinessStatusCode()); //col 9
+        assertEquals("062-515-2875", hospitalDao.findById(1).getPhone()); // col 15
+        assertEquals("광주광역시 북구 풍향동 565번지 4호 3층", hospitalDao.findById(1).getFullAddress()); //col 18
+        assertEquals("광주광역시 북구 동문대로 24, 3층 (풍향동)", hospitalDao.findById(1).getRoadNameAddress()); //col 19
+        assertEquals("효치과의원", hospitalDao.findById(1).getHospitalName()); //col 21
+        assertEquals("치과의원", hospitalDao.findById(1).getBusinessTypeName()); //col 25
+        assertEquals(1, hospitalDao.findById(1).getHealthcareProviderCount()); //col 30
+        assertEquals(0, hospitalDao.findById(1).getPatientRoomCount()); //col 31
+        assertEquals(0, hospitalDao.findById(1).getTotalNumberOfBeds()); //col 32
+        assertEquals(52.29f, hospitalDao.findById(1).getTotalAreaSize()); //col 33
+
+    }
+
+    @Test
     void name() throws IOException {
         String fileName = "C:\\Users\\user\\Downloads\\utf8_fulldata_01_01_02_P_의원.csv";
         List<Hospital> hospitalList = hospitalReadLineContext.readByLine(fileName);
