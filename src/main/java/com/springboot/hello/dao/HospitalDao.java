@@ -36,12 +36,22 @@ public class HospitalDao {
                 new BatchPreparedStatementSetter() {
                     @Override
                     public void setValues(PreparedStatement ps, int i) throws SQLException {
-                        hospital.getId(); hospital.getOpenServiceName(); hospital.getOpenLocalGovernmentCode();
-                                hospital.getManagementNumber(); hospital.getLicenseDate(); hospital.getBusinessStatus();
-                                hospital.getBusinessStatusCode(); hospital.getPhone(); hospital.getFullAddress();
-                                hospital.getRoadNameAddress(); hospital.getHospitalName(); hospital.getBusinessTypeName();
-                                hospital.getHealthcareProviderCount(); hospital.getPatientRoomCount(); hospital.getTotalNumberOfBeds();
-                                hospital.getTotalAreaSize();
+                                ps.setInt(1,hospital.getId());
+                                ps.setString(2,hospital.getOpenServiceName());
+                                ps.setInt(3,hospital.getOpenLocalGovernmentCode());
+                                ps.setString(4,hospital.getManagementNumber());
+                                ps.setString(5, String.valueOf(hospital.getLicenseDate()));
+                                ps.setInt(6,hospital.getBusinessStatus());
+                                ps.setInt(7,hospital.getBusinessStatusCode());
+                                ps.setString(8,hospital.getPhone());
+                                ps.setString(9,hospital.getFullAddress());
+                                ps.setString(10,hospital.getRoadNameAddress());
+                                ps.setString(11,hospital.getHospitalName());
+                                ps.setString(12,hospital.getBusinessTypeName());
+                                ps.setInt(13,hospital.getHealthcareProviderCount());
+                                ps.setInt(14,hospital.getPatientRoomCount());
+                                ps.setInt(15,hospital.getTotalNumberOfBeds());
+                                ps.setFloat(16,hospital.getTotalAreaSize());
                     }
                     @Override
                     public int getBatchSize() {
