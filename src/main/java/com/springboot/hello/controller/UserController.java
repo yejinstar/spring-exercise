@@ -35,7 +35,7 @@ public class UserController {
                 .body(userDao.deleteAll());
     }
 
-    @DeleteMapping("/{id}") // /user/{id} - 전체 유저 지우는 기능
+    @DeleteMapping("/{id}") // /user/{id} - 특정 id 유저 지우는 기능
     public ResponseEntity<Integer> deleteById(@PathVariable("id") String id) {
         return ResponseEntity
                 .ok()
