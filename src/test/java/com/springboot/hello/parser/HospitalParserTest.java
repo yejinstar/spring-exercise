@@ -2,6 +2,7 @@ package com.springboot.hello.parser;
 
 import com.springboot.hello.dao.HospitalDao;
 import com.springboot.hello.domain.Hospital;
+import com.springboot.hello.service.HospitalService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ class HospitalParserTest {
     @Autowired
     HospitalDao hospitalDao;
 
+    @Autowired
+    HospitalService hospitalService;
     @Test
     @DisplayName("DB insert success?")
     void add(){
@@ -80,6 +83,18 @@ class HospitalParserTest {
         assertEquals(52.29f, hospitalDao.findById(1).getTotalAreaSize()); //col 33
 
     }
+
+    @Test
+    @DisplayName("data count 테스트에서 하기")
+    void insertLarge(){
+        //hospitalDao.deleteAll();
+        String fileName = "C:\\Users\\user\\Downloads\\utf8_fulldata_01_01_02_P_의원.csv";
+        int cnt = this.hospitalService.insertLargeVolumeHospitalData(fileName);
+        assertTrue(cnt > 1000);
+        assertTrue(cnt > 100000);
+        System.out.println("들어간 데이터의 갯수 : " + cnt);
+    }
+
 
     @Test
     void name() throws IOException {
