@@ -33,6 +33,17 @@ class HospitalParserTest {
     }
 
     @Test
+    @DisplayName("DB insert all success? ")
+    void addAll() throws IOException {
+        String fileName = "C:\\Users\\user\\Downloads\\utf8_fulldata_01_01_02_P_의원.csv";
+        List<Hospital> hospitalList = hospitalReadLineContext.readByLine(fileName);
+        for (Hospital hospital : hospitalList) {
+            hospitalDao.add(hospital);
+        }
+        assertEquals(111919, hospitalDao.getCount());
+    }
+
+    @Test
     @DisplayName("getCount success?")
     void get(){
         assertEquals(1,hospitalDao.getCount());
