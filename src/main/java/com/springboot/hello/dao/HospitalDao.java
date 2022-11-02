@@ -2,10 +2,13 @@ package com.springboot.hello.dao;
 
 import com.springboot.hello.domain.Hospital;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import javax.sql.DataSource;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 @Configuration
 public class HospitalDao {
@@ -28,6 +31,24 @@ public class HospitalDao {
                 hospital.getHealthcareProviderCount(), hospital.getPatientRoomCount(), hospital.getTotalNumberOfBeds(),
                 hospital.getTotalAreaSize()
         );
+
+        /*this.jdbcTemplate.batchUpdate(sql,
+                new BatchPreparedStatementSetter() {
+                    @Override
+                    public void setValues(PreparedStatement ps, int i) throws SQLException {
+                        hospital.getId(); hospital.getOpenServiceName(); hospital.getOpenLocalGovernmentCode();
+                                hospital.getManagementNumber(); hospital.getLicenseDate(); hospital.getBusinessStatus();
+                                hospital.getBusinessStatusCode(); hospital.getPhone(); hospital.getFullAddress();
+                                hospital.getRoadNameAddress(); hospital.getHospitalName(); hospital.getBusinessTypeName();
+                                hospital.getHealthcareProviderCount(); hospital.getPatientRoomCount(); hospital.getTotalNumberOfBeds();
+                                hospital.getTotalAreaSize();
+                    }
+                    @Override
+                    public int getBatchSize() {
+                        return 0;
+                    }
+                }
+        );*/
     }
     RowMapper<Hospital> rowMapper = (rs, rowNum) -> {
         Hospital hospital = new Hospital();
